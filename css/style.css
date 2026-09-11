@@ -500,8 +500,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .testimonial-card {
   min-width: 100%;
-  background: var(--gray-light);
-  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   padding: 2.5rem;
   text-align: center;
 }
@@ -513,7 +514,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .testimonial-card { min-width: calc(33.333% - 1.4rem); }
 }
 
-.stars { color: var(--accent); font-size: 1.1rem; margin-bottom: 1rem; display: flex; justify-content: center; gap: 0.2rem; }
+.stars { color: #f5c842; font-size: 1.1rem; margin-bottom: 1rem; display: flex; justify-content: center; gap: 0.2rem; }
 .testimonial-card > p { color: var(--gray); font-style: italic; margin-bottom: 1.5rem; }
 .testimonial-author { display: flex; align-items: center; justify-content: center; gap: 1rem; }
 .author-avatar {
@@ -617,13 +618,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .social-links a:hover { background: var(--accent); transform: translateY(-3px); }
 
-.map-container {
-  border-radius: var(--radius);
-  overflow: hidden;
-  height: 200px;
-}
-.map-container iframe { width: 100%; height: 100%; border: none; }
-
 /* ===== FOOTER ===== */
 .footer {
   background: var(--dark);
@@ -661,22 +655,22 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   bottom: 2rem;
   right: 2rem;
   width: 60px; height: 60px;
-  background: var(--primary);
-  color: var(--white);
+  background: #25d366;
+  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
   z-index: 999;
-  box-shadow: 0 4px 20px rgba(13,59,120,0.5);
+  box-shadow: 0 4px 20px rgba(37,211,102,0.45);
   animation: pulse 2s infinite;
   transition: transform var(--transition);
 }
 .whatsapp-float:hover { transform: scale(1.1); animation: none; }
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(13,59,120,0.5); }
-  50% { box-shadow: 0 4px 40px rgba(13,59,120,0.8), 0 0 0 12px rgba(255,255,255,0.15); }
+  0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
+  50% { box-shadow: 0 4px 40px rgba(37,211,102,0.75), 0 0 0 12px rgba(37,211,102,0.12); }
 }
 
 /* ===== BACK TO TOP ===== */
