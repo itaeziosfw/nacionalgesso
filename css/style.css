@@ -755,7 +755,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 
 /* Remove badge da Netlify */
-div[class*="netlify"],
-a[href*="netlify.com"] {
+[class*="netlify"],
+[id*="netlify"],
+a[href*="netlify"] {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
+

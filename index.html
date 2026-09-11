@@ -38,6 +38,25 @@
   }
   </script>
 </head>
+
+<script>
+  function removeNetlifyBadge() {
+    const links = document.querySelectorAll('a[href*="netlify.com"]');
+    links.forEach(el => el.remove());
+  }
+
+  // Remove ao carregar
+  window.addEventListener('load', removeNetlifyBadge);
+  
+  // Remove novamente após 3 segundos (o script da Netlify injeta depois)
+  setTimeout(removeNetlifyBadge, 3000);
+  setTimeout(removeNetlifyBadge, 8000);
+</script>
+
+
+
+
+
 <body>
 
   <!-- HEADER -->
