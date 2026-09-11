@@ -115,11 +115,14 @@ const lightboxClose = document.getElementById('lightboxClose');
 
 galleryItems.forEach(item => {
   item.addEventListener('click', () => {
-    const placeholder = item.querySelector('.gallery-placeholder');
-    const clone = placeholder.cloneNode(true);
-    clone.style.cssText = `width:400px;height:400px;border-radius:12px;font-size:1.2em;${placeholder.style.cssText}`;
+    const img = item.querySelector('img');
+    if (!img) return;
+    const fullImg = document.createElement('img');
+    fullImg.src = img.src;
+    fullImg.alt = img.alt;
+    fullImg.style.cssText = 'max-width:90vw;max-height:80vh;border-radius:12px;display:block;';
     lightboxContent.innerHTML = '';
-    lightboxContent.appendChild(clone);
+    lightboxContent.appendChild(fullImg);
     lightbox.classList.add('open');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
