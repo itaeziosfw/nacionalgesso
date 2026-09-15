@@ -251,6 +251,10 @@
           <img src="img/img13.jpeg" alt="Obra 13" loading="lazy" />
           <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
         </div>
+        <div class="gallery-item reveal" data-category="drywall">
+          <img src="img/img14.jpeg" alt="Obra 14" loading="lazy" />
+          <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+        </div>
       </div>
     </div>
   </section>
@@ -260,6 +264,32 @@
     <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Fechar visualização"><i class="fa-solid fa-xmark"></i></button>
     <div class="lightbox-content" id="lightboxContent"></div>
   </div>
+
+  <!-- VÍDEOS -->
+  <section id="videos" class="section section-dark">
+    <div class="container">
+      <span class="section-tag reveal">Em Ação</span>
+      <h2 class="section-title reveal">Veja Nossos Serviços</h2>
+      <p class="section-sub reveal">Acompanhe de perto a qualidade e o cuidado em cada etapa das nossas obras.</p>
+      <div class="video-slider reveal">
+        <div class="video-track" id="videoTrack">
+          <div class="video-slide">
+            <video controls preload="none" poster="img/img1.jpeg">
+              <source src="img/video1.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="video-slide">
+            <video controls preload="none" poster="img/img2.jpeg">
+              <source src="img/video2.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+        <button class="video-btn video-prev" id="videoPrev" aria-label="Vídeo anterior"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="video-btn video-next" id="videoNext" aria-label="Próximo vídeo"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="video-dots" id="videoDots"></div>
+      </div>
+    </div>
+  </section>
 
   <!-- DECORAÇÕES -->
   <section id="decoracoes" class="section section-accent">

@@ -199,6 +199,36 @@ window.addEventListener('resize', () => {
 
 buildDots();
 
+// ===== VIDEO SLIDER =====
+const videoTrack = document.getElementById('videoTrack');
+const videoDotsEl = document.getElementById('videoDots');
+const videoPrev = document.getElementById('videoPrev');
+const videoNext = document.getElementById('videoNext');
+const videoSlides = videoTrack ? videoTrack.querySelectorAll('.video-slide') : [];
+let currentVideo = 0;
+
+if (videoSlides.length) {
+  videoSlides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', `Vídeo ${i + 1}`);
+    d.addEventListener('click', () => goToVideo(i));
+    videoDotsEl.appendChild(d);
+  });
+
+  function goToVideo(index) {
+    // pausa o video atual
+    const current = videoSlides[currentVideo].querySelector('video');
+    if (current) current.pause();
+    currentVideo = (index + videoSlides.length) % videoSlides.length;
+    videoTrack.style.transform = `translateX(-${currentVideo * 100}%)`;
+    videoDotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentVideo));
+  }
+
+  videoPrev.addEventListener('click', () => goToVideo(currentVideo - 1));
+  videoNext.addEventListener('click', () => goToVideo(currentVideo + 1));
+}
+
 // ===== CONTACT FORM =====
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
