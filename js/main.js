@@ -90,30 +90,80 @@ const counterObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 
-// ===== GALLERY FILTER =====
+// ===== GALLERY SLIDER =====
+const galleryTrack = document.getElementById('galleryTrack');
+const galleryDotsEl = document.getElementById('galleryDots');
+const galleryCounter = document.getElementById('galleryCounter');
+const galleryPrevBtn = document.getElementById('galleryPrev');
+const galleryNextBtn = document.getElementById('galleryNext');
 const filterBtns = document.querySelectorAll('.filter-btn');
-const galleryItems = document.querySelectorAll('.gallery-item');
 
+let allSlides = Array.from(galleryTrack.querySelectorAll('.gallery-slide'));
+let visibleSlides = [...allSlides];
+let currentGallery = 0;
+
+function getVisibleSlides() {
+  return allSlides.filter(s => !s.classList.contains('hidden'));
+}
+
+function buildGalleryDots() {
+  galleryDotsEl.innerHTML = '';
+  visibleSlides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === currentGallery ? ' active' : '');
+    d.setAttribute('aria-label', `Foto ${i + 1}`);
+    d.addEventListener('click', () => goToGallery(i));
+    galleryDotsEl.appendChild(d);
+  });
+}
+
+function updateGalleryCounter() {
+  if (galleryCounter) galleryCounter.textContent = `${currentGallery + 1} / ${visibleSlides.length}`;
+}
+
+function goToGallery(index) {
+  currentGallery = (index + visibleSlides.length) % visibleSlides.length;
+  const slideIndex = allSlides.indexOf(visibleSlides[currentGallery]);
+  galleryTrack.style.transform = `translateX(-${slideIndex * 100}%)`;
+  galleryDotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentGallery));
+  updateGalleryCounter();
+}
+
+galleryPrevBtn.addEventListener('click', () => goToGallery(currentGallery - 1));
+galleryNextBtn.addEventListener('click', () => goToGallery(currentGallery + 1));
+
+// Filtros
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
-    filterBtns.forEach(b => b.setAttribute('aria-pressed', 'false'));
+    filterBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
     btn.classList.add('active');
     btn.setAttribute('aria-pressed', 'true');
     const filter = btn.dataset.filter;
-    galleryItems.forEach(item => {
-      const show = filter === 'all' || item.dataset.category === filter;
-      item.classList.toggle('hidden', !show);
-    });
+    allSlides.forEach(s => s.classList.toggle('hidden', filter !== 'all' && s.dataset.category !== filter));
+    visibleSlides = getVisibleSlides();
+    currentGallery = 0;
+    goToGallery(0);
+    buildGalleryDots();
   });
 });
+
+// Swipe touch
+let touchStartX = 0;
+galleryTrack.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+galleryTrack.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) goToGallery(currentGallery + (diff > 0 ? 1 : -1));
+});
+
+buildGalleryDots();
+updateGalleryCounter();
 
 // ===== LIGHTBOX =====
 const lightbox = document.getElementById('lightbox');
 const lightboxContent = document.getElementById('lightboxContent');
 const lightboxClose = document.getElementById('lightboxClose');
 
-galleryItems.forEach(item => {
+galleryTrack.querySelectorAll('.gallery-slide').forEach(item => {
   item.addEventListener('click', () => {
     const img = item.querySelector('img');
     if (!img) return;
@@ -232,8 +282,37 @@ if (videoSlides.length) {
 // ===== CONTACT FORM =====
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
-  const status = document.getElementById('formStatus');
-  status.textContent = 'Para concluir sua solicitação, fale conosco pelo WhatsApp.';
+  const btn = e.target.querySelector('button[type="submit"]');
+  const original = btn.innerHTML;
+
+  // Estado de loading
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    btn.innerHTML = original;
+    btn.disabled = false;
+    e.target.reset();
+    showSuccessModal();
+  }, 1500);
+});
+
+function showSuccessModal() {
+  const modal = document.getElementById('successModal');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('successModalClose').addEventListener('click', () => {
+  document.getElementById('successModal').classList.remove('open');
+  document.body.style.overflow = '';
+});
+
+document.getElementById('successModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) {
+    e.currentTarget.classList.remove('open');
+    document.body.style.overflow = '';
+  }
 });
 
 // ===== SMOOTH SCROLL for anchor links =====
