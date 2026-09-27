@@ -279,22 +279,39 @@ if (videoSlides.length) {
   videoNext.addEventListener('click', () => goToVideo(currentVideo + 1));
 }
 
-// ===== CONTACT FORM =====
-document.getElementById('contactForm').addEventListener('submit', e => {
+// ===== CONTACT FORM (WEB3FORMS) =====
+document.getElementById('contactForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const btn = e.target.querySelector('button[type="submit"]');
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('formStatus');
   const original = btn.innerHTML;
 
-  // Estado de loading
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
   btn.disabled = true;
+  status.textContent = 'Enviando sua mensagem...';
 
-  setTimeout(() => {
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
+    });
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Não foi possível enviar a mensagem.');
+    }
+
+    form.reset();
+    status.textContent = '';
+    showSuccessModal();
+  } catch (error) {
+    status.textContent = error.message || 'Ocorreu um erro. Tente novamente em instantes.';
+  } finally {
     btn.innerHTML = original;
     btn.disabled = false;
-    e.target.reset();
-    showSuccessModal();
-  }, 1500);
+  }
 });
 
 function showSuccessModal() {
@@ -323,5 +340,16 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  });
+});
+
+// ===== GOOGLE ADS: CONVERSÃO DE CONTATO VIA WHATSAPP =====
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"]');
+
+  if (!link || typeof window.gtag !== 'function') return;
+
+  window.gtag('event', 'conversion', {
+    send_to: 'AW-11247482702/TINrCLaXwYAdEM7um_Mp'
   });
 });

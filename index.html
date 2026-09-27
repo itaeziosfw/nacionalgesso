@@ -405,7 +405,10 @@
       <h2 class="section-title reveal">Entre em Contato</h2>
       <p class="section-sub reveal">Solicite seu orçamento sem compromisso. Respondemos rapidamente!</p>
       <div class="contact-grid">
-        <form class="contact-form reveal" id="contactForm">
+        <form class="contact-form reveal" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="7211b947-4214-470b-8a8c-01de52a1b77e" />
+          <input type="hidden" name="subject" value="Novo pedido de orçamento — Nacional Gesso" />
+          <input type="hidden" name="from_name" value="Site Nacional Gesso" />
           <div class="form-group">
             <label class="sr-only" for="nome">Seu nome completo</label>
             <input id="nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome completo" required />
